@@ -86,10 +86,11 @@ modules:
     config-opts:
       - -Dvapi=disabled
       - -Dgtk_doc=false
+      - -Dtests=false
     sources:
       - type: archive
-        url: https://gitlab.gnome.org/GNOME/libsoup/-/archive/2.74.1/libsoup-2.74.1.tar.gz
-        sha256: e2692900726ae7d9aa623ddebfa8dce2971f3e9d7f06904b908cf7fe786ca4bc
+        url: https://download.gnome.org/sources/libsoup/2.74/libsoup-2.74.3.tar.xz
+        sha256: e4b77c41cfc4c8c5a035fcdc320c7bc6cfb75ef7c5a034153df1413fa1d92f13
 
   - name: webkitgtk
     buildsystem: cmake-ninja
