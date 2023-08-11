@@ -110,18 +110,6 @@ modules:
         url: https://webkitgtk.org/releases/webkitgtk-2.40.5.tar.xz
         sha256: 7de051a263668621d91a61a5eb1c3771d1a7cec900043d4afef06c326c16037f
 
-  - name: bzip2
-    buildsystem: simple
-    build-commands:
-      - make -f Makefile-libbz2_so
-      - install -Dm644 libbz2.so.1.0.8 -t /app/lib
-      - ln -s libbz2.so.1.0.8 /app/lib/libbz2.so.1.0
-      - ln -s libbz2.so.1.0.8 /app/lib/libbz2.so
-    sources:
-      - type: archive
-        url: https://sourceware.org/pub/bzip2/bzip2-1.0.8.tar.gz
-        sha256: ab5a03176ee106d3f0fa90e381da478ddae405918153cca248e682cd0c4a2269
-
   - name: modrinth-app
     buildsystem: simple
     build-options:
@@ -131,19 +119,13 @@ modules:
       build-args:
         - --share=network # this won't be allowed in the actual flatpak
     build-commands:
-      - |
-        set -e
+      - cd theseus_gui && npx pnpm install # this is illegal
+      - cd theseus_gui && npx pnpm build
 
-        cd theseus_gui
-        jq '.tauri.updater.active=false|.tauri.bundle.active=false' src-tauri/tauri.conf.json > tmp.json
-        mv tmp.json src-tauri/tauri.conf.json
+      - cargo --offline fetch --manifest-path Cargo.toml
+      - cargo --offline build --release
 
-        npx pnpm install # this is the line we want to get rid of
-
-        cargo --offline fetch --manifest-path src-tauri/Cargo.toml
-        npx pnpm tauri build -- --offline
-
-        install -Dm755 ../target/release/modrinth-app -t /app/bin
+      - install -Dm755 target/release/theseus_gui /app/bin/modrinth-app
     sources:
       - type: archive
         url: https://github.com/modrinth/theseus/archive/5f0d44a8810ec01bd4c6ccc6407d2217cb9b18ed.tar.gz
