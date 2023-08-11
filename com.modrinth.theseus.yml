@@ -92,6 +92,9 @@ modules:
       - type: archive
         url: https://download.gnome.org/sources/libsoup/2.74/libsoup-2.74.3.tar.xz
         sha256: e4b77c41cfc4c8c5a035fcdc320c7bc6cfb75ef7c5a034153df1413fa1d92f13
+    cleanup:
+      - '/share/locale'
+      - '/share/runtime/locale'
 
   - name: webkitgtk
     buildsystem: cmake-ninja
@@ -110,6 +113,9 @@ modules:
       - type: archive
         url: https://webkitgtk.org/releases/webkitgtk-2.40.5.tar.xz
         sha256: 7de051a263668621d91a61a5eb1c3771d1a7cec900043d4afef06c326c16037f
+    cleanup:
+      - '/share/locale'
+      - '/share/runtime/locale'
 
   - name: modrinth-app
     buildsystem: simple
