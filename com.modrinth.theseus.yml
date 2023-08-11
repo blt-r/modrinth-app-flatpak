@@ -80,13 +80,14 @@ modules:
           version-query: $tag
           url-query: '"https://github.com/Igalia/WPEBackend-fdo/releases/download/\($tag)/wpebackend-fdo-\($version).tar.xz"'
 
-  - name: libsoup
+  - name: libsoup-2.4
     buildsystem: meson
     builddir: true
     config-opts:
       - -Dvapi=disabled
       - -Dgtk_doc=false
       - -Dtests=false
+      - -Dgnome=false
     sources:
       - type: archive
         url: https://download.gnome.org/sources/libsoup/2.74/libsoup-2.74.3.tar.xz
