@@ -28,10 +28,7 @@ cleanup:
   - /share/gir-1.0
 
 modules:
-  # alot of the stuff to build libwebkit2gtk was taken from:
-  # https://github.com/flathub/org.telegram.desktop.webview/blob/master/org.telegram.desktop.webview.yml
-
-  - name: unifdef
+  - name: unifdef # build dependency for webkitgtk
     no-autogen: true
     make-install-args:
       - prefix=/app
@@ -45,40 +42,6 @@ modules:
           url-template: https://dotat.at/prog/unifdef/unifdef-$version.tar.xz
     cleanup:
       - '*'
-
-  - name: libwpe
-    buildsystem: meson
-    builddir: true
-    config-opts:
-      - --buildtype=plain
-    sources:
-      - type: archive
-        url: https://github.com/WebPlatformForEmbedded/libwpe/releases/download/1.14.1/libwpe-1.14.1.tar.xz
-        sha256: b1d0cdcf0f8dbb494e65b0f7913e357106da9a0d57f4fbb7b9d1238a6dbe9ade
-        x-checker-data:
-          type: json
-          url: https://api.github.com/repos/WebPlatformForEmbedded/libwpe/releases/latest
-          tag-query: .tag_name
-          timestamp-query: .published_at
-          version-query: $tag
-          url-query: '"https://github.com/WebPlatformForEmbedded/libwpe/releases/download/\($tag)/libwpe-\($version).tar.xz"'
-
-  - name: wpebackend-fdo
-    buildsystem: meson
-    builddir: true
-    config-opts:
-      - --buildtype=plain
-    sources:
-      - type: archive
-        url: https://github.com/Igalia/WPEBackend-fdo/releases/download/1.14.2/wpebackend-fdo-1.14.2.tar.xz
-        sha256: 93c9766ae9864eeaeaee2b0a74f22cbca08df42c1a1bdb55b086f2528e380d38
-        x-checker-data:
-          type: json
-          url: https://api.github.com/repos/Igalia/WPEBackend-fdo/releases/latest
-          tag-query: .tag_name
-          timestamp-query: .published_at
-          version-query: $tag
-          url-query: '"https://github.com/Igalia/WPEBackend-fdo/releases/download/\($tag)/wpebackend-fdo-\($version).tar.xz"'
 
   - name: libsoup-2.4
     buildsystem: meson
