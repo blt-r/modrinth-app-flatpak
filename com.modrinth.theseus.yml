@@ -80,6 +80,19 @@ modules:
       - '/share/locale'
       - '/share/runtime/locale'
 
+  - name: pnpm
+    buildsystem: simple
+    build-commands:
+      - mkdir -p /app/lib/pnpm
+      - cp -r bin dist /app/lib/pnpm/.
+      - ln -s ../lib/pnpm/bin/pnpm.cjs /app/bin/pnpm
+    sources:
+      - type: archive
+        url: https://registry.npmjs.org/pnpm/-/pnpm-8.6.12.tgz
+        sha256: 3ed40ffc6cbb00790ab325e9d3ff5517a3ed5b763ec53a411707b1702a411174
+    cleanup:
+      - '*'
+
   - name: modrinth-app
     buildsystem: simple
     build-options:
@@ -89,8 +102,8 @@ modules:
       build-args:
         - --share=network # this won't be allowed in the actual flatpak
     build-commands:
-      - cd theseus_gui && npx pnpm install # this is illegal
-      - cd theseus_gui && npx pnpm build
+      - pnpm -C theseus_gui install # this shouldn't be there once we get the sources
+      - pnpm -C theseus_gui build
 
       - cargo --offline fetch --manifest-path Cargo.toml
       - cargo --offline build --release
